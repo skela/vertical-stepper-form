@@ -1,6 +1,7 @@
 package ernestoyaquello.com.verticalstepperform.interfaces;
 
 import android.view.View;
+import android.widget.Button;
 
 public interface VerticalStepperForm {
 
@@ -11,6 +12,10 @@ public interface VerticalStepperForm {
      * @return The view that will be automatically added as the content of the step
      */
     View createStepContentView(int stepNumber);
+
+    void clickedNext(int stepNumber);
+
+    void updateNextButton(Button button);
 
     /**
      * This method will be called every time a certain step is open
