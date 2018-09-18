@@ -112,6 +112,11 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         mInflater.inflate(R.layout.vertical_stepper_form_layout, this, true);
     }
 
+    public void addHeader(View header)
+    {
+        content.addView(header);
+    }
+
     /**
      * Returns the title of a step
      * @param stepNumber The step number (counting from 0)
