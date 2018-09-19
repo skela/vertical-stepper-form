@@ -84,6 +84,8 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     protected int numberOfSteps;
     protected boolean[] completedSteps;
 
+    public boolean shouldAddConfirmationStep = true;
+
     // Listeners and callbacks
     protected VerticalStepperForm verticalStepperFormImplementation;
 
@@ -507,6 +509,8 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
 
     private void updateButton(int step)
     {
+        if (step >= stepLayouts.size())
+            return;
         LinearLayout stepLayout = stepLayouts.get(step);
         AppCompatButton button = (AppCompatButton)stepLayout.findViewById(R.id.next_step);
         verticalStepperFormImplementation.updateNextButton(button);
@@ -568,8 +572,12 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         for (int i = 0; i < numberOfSteps; i++) {
             setUpStep(i);
         }
-        // Set up confirmation step
-        setUpStep(numberOfSteps);
+
+        if (shouldAddConfirmationStep)
+        {
+            // Set up confirmation step
+            setUpStep(numberOfSteps);
+        }
     }
 
     protected void setUpStep(int stepNumber) {
@@ -588,7 +596,10 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         content.addView(stepLayout);
     }
 
-    protected void setUpStepLayoutAsConfirmationStepLayout(LinearLayout stepLayout) {
+    protected void setUpStepLayoutAsConfirmationStepLayout(LinearLayout stepLayout)
+    {
+        if (!shouldAddConfirmationStep) return;
+
         LinearLayout stepLeftLine = (LinearLayout) stepLayout.findViewById(R.id.vertical_line);
         LinearLayout stepLeftLine2 = (LinearLayout) stepLayout.findViewById(R.id.vertical_line_subtitle);
         confirmationButton = (AppCompatButton) stepLayout.findViewById(R.id.next_step);
@@ -652,8 +663,10 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         RelativeLayout stepHeader = (RelativeLayout) stepLayout.findViewById(R.id.step_header);
         stepHeader.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v) {
-                goToStep(stepNumber, false);
+            public void onClick(View v)
+            {
+                if (!goToStep(stepNumber, false))
+                    closeStep(stepNumber);
             }
         });
 
@@ -705,7 +718,11 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
                 disableNextButtonInBottomNavigationLayout();
             }
 
-            for(int i = 0; i <= numberOfSteps; i++) {
+            int stepCount = numberOfSteps;
+            if (!shouldAddConfirmationStep)
+                stepCount -= 1;
+
+            for(int i = 0; i <= stepCount; i++) {
                 if(i != stepNumber) {
                     disableStepLayout(i, !restoration);
                 } else {
@@ -715,7 +732,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
 
             scrollToActiveStep(!restoration);
 
-            if (stepNumber == numberOfSteps) {
+            if (stepNumber == numberOfSteps && shouldAddConfirmationStep) {
                 setStepAsCompleted(stepNumber);
             }
 
@@ -726,7 +743,22 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         return false;
     }
 
+    public void closeStep(int stepNumber)
+    {
+        boolean canClose = stepNumber == 0 || arePreviousStepsCompleted(stepNumber);
+        if (!canClose) return;
+
+        disableStepLayout(stepNumber,true);
+        LinearLayout stepLayout = stepLayouts.get(stepNumber);
+        enableStepHeader(stepLayout);
+        activeStep = -1;
+    }
+
     protected void scrollToStep(final int stepNumber, boolean smoothScroll) {
+
+        if (stepNumber >= stepLayouts.size())
+            return;
+
         if (smoothScroll) {
             stepsScrollView.post(new Runnable() {
                 public void run() {
@@ -859,7 +891,9 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         progressBar.setMax(numberOfSteps + 1);
     }
 
-    protected void addConfirmationStepToStepsList() {
+    protected void addConfirmationStepToStepsList()
+    {
+        if (!shouldAddConfirmationStep) return;
         String confirmationStepText = context.getString(R.string.vertical_form_stepper_form_last_step);
         steps.add(confirmationStepText);
     }
