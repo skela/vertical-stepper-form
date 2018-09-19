@@ -159,6 +159,8 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/next_step_button_vertical_line"
             android:layout_width="@dimen/vertical_stepper_vertical_line_thickness"
             android:layout_marginLeft="12dp"
             android:layout_marginStart="12dp"
