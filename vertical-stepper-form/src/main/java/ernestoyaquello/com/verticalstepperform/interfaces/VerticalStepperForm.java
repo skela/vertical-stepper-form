@@ -15,7 +15,9 @@ public interface VerticalStepperForm {
 
     void clickedNext(int stepNumber);
 
-    void updateNextButton(Button button,int stepNumber);
+    void clickedAlt1(int stepNumber);
+
+    void clickedAlt2(int stepNumber);
 
     /**
      * This method will be called every time a certain step is open
