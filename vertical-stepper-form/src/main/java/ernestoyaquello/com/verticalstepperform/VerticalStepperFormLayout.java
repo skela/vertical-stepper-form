@@ -553,6 +553,13 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         initStepperForm(builder.steps, builder.stepsSubtitles,builder.stepsCompleted);
     }
 
+    public View getStepView(int step)
+    {
+        if (step >= stepLayouts.size())
+            return null;
+        return stepContentViews.get(step);
+    }
+
     protected void initStepperForm(String[] stepsTitles, String[] stepsSubtitles,Boolean[] stepsCompleted)
     {
         setSteps(stepsTitles, stepsSubtitles);
