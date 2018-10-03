@@ -186,6 +186,11 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         content.addView(header);
     }
 
+    public void clear()
+    {
+        content.removeAllViews();
+    }
+
     /**
      * Returns the title of a step
      * @param stepNumber The step number (counting from 0)
