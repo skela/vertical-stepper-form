@@ -145,7 +145,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     protected List<String> stepsSubtitles;
 
     // Logic
-    protected int activeStep = 0;
+    protected int activeStep = -1;
     protected int numberOfSteps;
     protected boolean[] completedSteps;
 
@@ -420,6 +420,10 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
             if (stepNumber == 0 || previousStepsAreCompleted || explorable) {
                 return openStep(stepNumber, restoration);
             }
+        }
+        else if (activeStep == stepNumber)
+        {
+            closeStep(stepNumber);
         }
         return false;
     }
@@ -925,7 +929,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
 
     public void closeStep(int stepNumber)
     {
-        boolean canClose = stepNumber == 0 || arePreviousStepsCompleted(stepNumber);
+        boolean canClose = stepNumber == 0 || arePreviousStepsCompleted(stepNumber) || explorable;
         if (!canClose) return;
 
         disableStepLayout(stepNumber,true);
