@@ -942,6 +942,8 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
 
         if (stepNumber >= stepLayouts.size())
             return;
+        if (stepNumber == -1)
+            return;
 
         if (smoothScroll) {
             stepsScrollView.post(new Runnable() {
