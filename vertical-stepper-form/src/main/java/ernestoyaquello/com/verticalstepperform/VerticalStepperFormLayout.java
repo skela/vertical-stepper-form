@@ -186,6 +186,11 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         content.addView(header);
     }
 
+    public void addFooter(View header)
+    {
+        content.addView(header);
+    }
+
     public void clear()
     {
         content.removeAllViews();
