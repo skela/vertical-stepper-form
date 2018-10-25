@@ -144,6 +144,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     protected VerticalStepperStyle stepTitleAppearance = new VerticalStepperStyle(0,0,0);
     protected VerticalStepperStyle stepSubtitleAppearance = new VerticalStepperStyle(0,0,0);
     protected int verticalLineColor = 0;
+    protected int doneIcon = 0;
 
     // Views
     protected LayoutInflater mInflater;
@@ -817,6 +818,8 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         stepNumberTextView.setTextColor(stepNumberTextColor.enabled);
 
         ImageView stepDoneImageView = (ImageView) stepLayout.findViewById(R.id.step_done);
+        if (doneIcon != 0)
+            stepDoneImageView.setImageResource(doneIcon);
         stepDoneImageView.setColorFilter(stepNumberTextColor.enabled);
 
         TextView errorMessage = (TextView) stepLayout.findViewById(R.id.error_message);
