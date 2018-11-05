@@ -335,7 +335,11 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
      * @param stepNumber the step number (counting from 0)
      * @param errorMessage Error message that will be displayed (null for no message)
      */
-    public void setStepAsUncompleted(int stepNumber, String errorMessage) {
+    public void setStepAsUncompleted(int stepNumber, String errorMessage)
+    {
+        if (stepNumber >= completedSteps.length - 1)
+            return;
+
         completedSteps[stepNumber] = false;
 
         LinearLayout stepLayout = stepLayouts.get(stepNumber);
@@ -965,15 +969,18 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
 
     public void closeStep(int stepNumber)
     {
-        boolean canClose = stepNumber == 0 || arePreviousStepsCompleted(stepNumber) || explorable;
-        if (!canClose) return;
+        if (stepNumber >= 0 && stepNumber <= numberOfSteps)
+        {
+            boolean canClose = stepNumber == 0 || arePreviousStepsCompleted(stepNumber) || explorable;
+            if (!canClose) return;
 
-        disableStepLayout(stepNumber,true);
-        LinearLayout stepLayout = stepLayouts.get(stepNumber);
-        if (isStepCompleted(stepNumber))
-            completeStepHeader(stepLayout);
-        else
-            enableStepHeader(stepLayout);
+            disableStepLayout(stepNumber, true);
+            LinearLayout stepLayout = stepLayouts.get(stepNumber);
+            if (isStepCompleted(stepNumber))
+                completeStepHeader(stepLayout);
+            else
+                enableStepHeader(stepLayout);
+        }
         activeStep = -1;
     }
 
