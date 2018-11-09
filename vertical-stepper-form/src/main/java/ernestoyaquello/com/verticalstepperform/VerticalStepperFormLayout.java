@@ -171,6 +171,11 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     protected int verticalLineColor = 0;
     protected int doneIcon = 0;
 
+    protected int getButtonLayoutId()
+    {
+        return R.layout.step_layout_buttons;
+    }
+
     // Views
     protected LayoutInflater mInflater;
     protected LinearLayout content;
@@ -810,7 +815,8 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         // RelativeLayout stepContent = (RelativeLayout) stepLayout.findViewById(R.id.step_content);
     }
 
-    protected LinearLayout createStepLayout(final int stepNumber) {
+    protected LinearLayout createStepLayout(final int stepNumber)
+    {
         LinearLayout stepLayout = generateStepLayout();
 
         LinearLayout circle = (LinearLayout) stepLayout.findViewById(R.id.circle);
@@ -864,13 +870,24 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
             }
         });
 
+        LinearLayout btnsContainer = stepLayout.findViewById(R.id.next_step_button_container);
+
+        int layoutButtons = getButtonLayoutId();
+
+        LayoutInflater inflater = LayoutInflater.from(context);
+        LinearLayout btns = (LinearLayout) inflater.inflate(layoutButtons, btnsContainer, false);
+        btnsContainer.addView(btns);
+
         Button nextButton = (Button) stepLayout.findViewById(R.id.next_step);
         Button alt1Button = (Button) stepLayout.findViewById(R.id.alt1_step);
         Button alt2Button = (Button) stepLayout.findViewById(R.id.alt2_step);
 
-        setButtonStyle(nextButton,buttonStyle);
-        setButtonStyle(alt1Button,alt1ButtonStyle);
-        setButtonStyle(alt2Button,alt2ButtonStyle);
+        if (layoutButtons == R.layout.step_layout_buttons)
+        {
+            setButtonStyle(nextButton, buttonStyle);
+            setButtonStyle(alt1Button, alt1ButtonStyle);
+            setButtonStyle(alt2Button, alt2ButtonStyle);
+        }
 
         nextButton.setOnClickListener(new OnClickListener()
         {
