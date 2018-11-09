@@ -13,7 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatImageButton;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -22,6 +21,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -179,7 +179,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     protected List<View> stepContentViews;
     protected List<TextView> stepsTitlesViews;
     protected List<TextView> stepsSubtitlesViews;
-    protected AppCompatButton confirmationButton;
+    protected Button confirmationButton;
     protected ProgressBar progressBar;
     protected AppCompatImageButton previousStepButton, nextStepButton;
     protected RelativeLayout bottomNavigation;
@@ -329,13 +329,12 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         TextView stepNumberTextView = (TextView) stepHeader.findViewById(R.id.step_number);
         LinearLayout errorContainer = (LinearLayout) stepLayout.findViewById(R.id.error_container);
         TextView errorTextView = (TextView) errorContainer.findViewById(R.id.error_message);
-        AppCompatButton nextButton = (AppCompatButton) stepLayout.findViewById(R.id.next_step);
+        Button nextButton = (Button) stepLayout.findViewById(R.id.next_step);
 
         enableStepHeader(stepLayout);
 
         updateButton(stepNumber);
         nextButton.setEnabled(true);
-        nextButton.setAlpha(1);
 
         if (stepNumber != activeStep) {
             stepDone.setVisibility(View.VISIBLE);
@@ -371,14 +370,13 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         RelativeLayout stepHeader = (RelativeLayout) stepLayout.findViewById(R.id.step_header);
         ImageView stepDone = (ImageView) stepHeader.findViewById(R.id.step_done);
         TextView stepNumberTextView = (TextView) stepHeader.findViewById(R.id.step_number);
-        AppCompatButton nextButton = (AppCompatButton) stepLayout.findViewById(R.id.next_step);
+        Button nextButton = (Button) stepLayout.findViewById(R.id.next_step);
 
         stepDone.setVisibility(View.INVISIBLE);
         stepNumberTextView.setVisibility(View.VISIBLE);
 
         updateButton(stepNumber);
         nextButton.setEnabled(false);
-        nextButton.setAlpha(alphaOfDisabledElements);
 
         if (stepNumber == activeStep) {
             disableNextButtonInBottomNavigationLayout();
@@ -668,22 +666,22 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         if (step >= stepLayouts.size())
             return;
         LinearLayout stepLayout = stepLayouts.get(step);
-        updateNextButton((AppCompatButton)stepLayout.findViewById(R.id.next_step),step);
-        updateAlt1Button((AppCompatButton)stepLayout.findViewById(R.id.alt1_step),step);
-        updateAlt2Button((AppCompatButton)stepLayout.findViewById(R.id.alt2_step),step);
+        updateNextButton((Button)stepLayout.findViewById(R.id.next_step),step);
+        updateAlt1Button((Button)stepLayout.findViewById(R.id.alt1_step),step);
+        updateAlt2Button((Button)stepLayout.findViewById(R.id.alt2_step),step);
     }
 
-    protected void updateNextButton(AppCompatButton button,int step)
+    protected void updateNextButton(Button button,int step)
     {
         button.setEnabled(arePreviousStepsCompleted(step));
     }
 
-    protected void updateAlt1Button(AppCompatButton button,int step)
+    protected void updateAlt1Button(Button button,int step)
     {
 
     }
 
-    protected void updateAlt2Button(AppCompatButton button,int step)
+    protected void updateAlt2Button(Button button,int step)
     {
 
     }
@@ -790,7 +788,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
 
         LinearLayout stepLeftLine = (LinearLayout) stepLayout.findViewById(R.id.vertical_line);
         LinearLayout stepLeftLine2 = (LinearLayout) stepLayout.findViewById(R.id.vertical_line_subtitle);
-        confirmationButton = (AppCompatButton) stepLayout.findViewById(R.id.next_step);
+        confirmationButton = (Button) stepLayout.findViewById(R.id.next_step);
 
         stepLeftLine.setVisibility(View.INVISIBLE);
         stepLeftLine2.setVisibility(View.INVISIBLE);
@@ -805,8 +803,8 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
             }
         });
         updateNextButton(confirmationButton,numberOfSteps);
-        updateAlt1Button((AppCompatButton) stepLayout.findViewById(R.id.alt1_step),numberOfSteps);
-        updateAlt2Button((AppCompatButton) stepLayout.findViewById(R.id.alt2_step),numberOfSteps);
+        updateAlt1Button((Button) stepLayout.findViewById(R.id.alt1_step),numberOfSteps);
+        updateAlt2Button((Button) stepLayout.findViewById(R.id.alt2_step),numberOfSteps);
 
         // Some content could be added to the final step inside stepContent layout
         // RelativeLayout stepContent = (RelativeLayout) stepLayout.findViewById(R.id.step_content);
@@ -866,9 +864,9 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
             }
         });
 
-        AppCompatButton nextButton = (AppCompatButton) stepLayout.findViewById(R.id.next_step);
-        AppCompatButton alt1Button = (AppCompatButton) stepLayout.findViewById(R.id.alt1_step);
-        AppCompatButton alt2Button = (AppCompatButton) stepLayout.findViewById(R.id.alt2_step);
+        Button nextButton = (Button) stepLayout.findViewById(R.id.next_step);
+        Button alt1Button = (Button) stepLayout.findViewById(R.id.alt1_step);
+        Button alt2Button = (Button) stepLayout.findViewById(R.id.alt2_step);
 
         setButtonStyle(nextButton,buttonStyle);
         setButtonStyle(alt1Button,alt1ButtonStyle);
@@ -1213,7 +1211,6 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
 
     protected void disableConfirmationButton() {
         confirmationButton.setEnabled(false);
-        confirmationButton.setAlpha(alphaOfDisabledElements);
     }
 
     protected void hideSoftKeyboard() {
@@ -1323,7 +1320,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         circle.setBackground(bg);
     }
 
-    static protected void setButtonStyle(AppCompatButton button,ButtonStyle style)
+    static protected void setButtonStyle(Button button,ButtonStyle style)
     {
         if (style == null)
         {
@@ -1345,7 +1342,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
             button.setBackgroundResource(style.background.resource);
 
         if (style.background.colors!=null)
-            button.setSupportBackgroundTintList(style.background.colors);
+            button.setBackgroundTintList(style.background.colors);
     }
 
     @Override
