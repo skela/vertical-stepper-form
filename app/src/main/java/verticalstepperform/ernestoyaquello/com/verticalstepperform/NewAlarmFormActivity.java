@@ -507,4 +507,19 @@ public class NewAlarmFormActivity extends AppCompatActivity implements VerticalS
         super.onRestoreInstanceState(savedInstanceState);
     }
 
+    public void clickedNext(int stepNumber)
+    {
+
+    }
+
+
+    public void clickedAlt1(int stepNumber)
+    {
+
+    }
+
+    public void clickedAlt2(int stepNumber)
+    {
+
+    }
 }
