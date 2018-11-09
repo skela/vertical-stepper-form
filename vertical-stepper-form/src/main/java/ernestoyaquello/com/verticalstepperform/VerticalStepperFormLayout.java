@@ -120,6 +120,31 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     {
         public ButtonTextAppearance text = new ButtonTextAppearance();
         public ButtonBackground background = new ButtonBackground();
+        public Padding padding;
+    }
+
+    public class Padding
+    {
+        public int left;
+        public int top;
+        public int right;
+        public int bottom;
+
+        public Padding(int left,int right)
+        {
+            this.left = left;
+            this.right = right;
+            this.top = 0;
+            this.bottom = 0;
+        }
+
+        public Padding(int left,int top,int right,int bottom)
+        {
+            this.left = left;
+            this.right = right;
+            this.top = top;
+            this.bottom = bottom;
+        }
     }
 
     // Style
@@ -1304,6 +1329,11 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         {
             button.setVisibility(View.GONE);
             return;
+        }
+
+        if (style.padding != null)
+        {
+            button.setPadding(style.padding.left,style.padding.top,style.padding.right,style.padding.bottom);
         }
 
         if (style.text.appearance == 0)
