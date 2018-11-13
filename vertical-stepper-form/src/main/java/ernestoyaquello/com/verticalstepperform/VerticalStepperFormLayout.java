@@ -166,6 +166,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     protected ButtonStyle buttonStyle = new ButtonStyle();
     protected ButtonStyle alt1ButtonStyle;
     protected ButtonStyle alt2ButtonStyle;
+    protected ButtonStyle alt3ButtonStyle;
     protected VerticalStepperStyle stepTitleAppearance = new VerticalStepperStyle(0,0,0);
     protected VerticalStepperStyle stepSubtitleAppearance = new VerticalStepperStyle(0,0,0);
     protected int verticalLineColor = 0;
@@ -674,6 +675,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         updateNextButton((Button)stepLayout.findViewById(R.id.next_step),step);
         updateAlt1Button((Button)stepLayout.findViewById(R.id.alt1_step),step);
         updateAlt2Button((Button)stepLayout.findViewById(R.id.alt2_step),step);
+        updateAlt3Button(stepLayout.findViewById(R.id.alt3_step),step);
     }
 
     protected void updateNextButton(Button button,int step)
@@ -687,6 +689,11 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     }
 
     protected void updateAlt2Button(Button button,int step)
+    {
+
+    }
+
+    protected void updateAlt3Button(View button,int step)
     {
 
     }
@@ -881,12 +888,15 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         Button nextButton = (Button) stepLayout.findViewById(R.id.next_step);
         Button alt1Button = (Button) stepLayout.findViewById(R.id.alt1_step);
         Button alt2Button = (Button) stepLayout.findViewById(R.id.alt2_step);
+        View alt3Button = stepLayout.findViewById(R.id.alt3_step);
 
         if (layoutButtons == R.layout.step_layout_buttons)
         {
             setButtonStyle(nextButton, buttonStyle);
             setButtonStyle(alt1Button, alt1ButtonStyle);
             setButtonStyle(alt2Button, alt2ButtonStyle);
+            if (alt3Button instanceof Button)
+                setButtonStyle((Button)alt3Button, alt3ButtonStyle);
         }
 
         nextButton.setOnClickListener(new OnClickListener()
@@ -913,6 +923,15 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
             public void onClick(View v)
             {
                 clickedAlt2(stepNumber);
+            }
+        });
+
+        alt3Button.setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                clickedAlt3(stepNumber);
             }
         });
 
@@ -950,6 +969,11 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     protected void clickedAlt2(int step)
     {
         verticalStepperFormImplementation.clickedAlt2(step);
+    }
+
+    protected void clickedAlt3(int step)
+    {
+        verticalStepperFormImplementation.clickedAlt3(step);
     }
 
     static private void setTextAppearance(TextView tv,int appearanceResourceId)
