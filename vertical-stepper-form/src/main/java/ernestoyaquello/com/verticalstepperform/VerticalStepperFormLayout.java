@@ -32,7 +32,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ernestoyaquello.com.verticalstepperform.interfaces.VerticalStepperForm;
 import ernestoyaquello.com.verticalstepperform.utils.Animations;
@@ -326,7 +328,8 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
      * Set the step as completed
      * @param stepNumber the step number (counting from 0)
      */
-    public void setStepAsCompleted(int stepNumber) {
+    public void setStepAsCompleted(int stepNumber)
+    {
         completedSteps[stepNumber] = true;
 
         LinearLayout stepLayout = stepLayouts.get(stepNumber);
@@ -468,19 +471,54 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
      * @param stepNumber the selected step number (counting from 0)
      * @param restoration true if the method has been called to restore the form; false otherwise
      */
+
+    private Map<Integer,Boolean> activeSteps = new HashMap<Integer,Boolean>();
+
+    public boolean isStepActive(int step)
+    {
+        if (canOpenMultipleSteps)
+        {
+            if (activeSteps.containsKey(step))
+                return activeSteps.get(step).booleanValue();
+            return false;
+        }
+        else
+        {
+            return activeStep == step;
+        }
+    }
+
+    void addActiveStep(int step)
+    {
+        activeStep = step;
+        if (canOpenMultipleSteps)
+        {
+            activeSteps.put(step,true);
+        }
+    }
+
+    void removeActiveStep(int step)
+    {
+        activeStep = -1;
+        activeSteps.remove(step);
+    }
+
     public boolean goToStep(int stepNumber, boolean restoration)
     {
-        if (activeStep != stepNumber || restoration) {
-            if(hideKeyboard) {
+        boolean isActive = isStepActive(stepNumber);
+        if (!isActive || restoration)
+        {
+            if(hideKeyboard)
+            {
                 hideSoftKeyboard();
             }
-            boolean previousStepsAreCompleted =
-                    arePreviousStepsCompleted(stepNumber);
-            if (stepNumber == 0 || previousStepsAreCompleted || explorable) {
+            boolean previousStepsAreCompleted = arePreviousStepsCompleted(stepNumber);
+            if (stepNumber == 0 || previousStepsAreCompleted || explorable)
+            {
                 return openStep(stepNumber, restoration);
             }
         }
-        else if (activeStep == stepNumber)
+        else if (isActive)
         {
             closeStep(stepNumber);
         }
@@ -874,8 +912,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
             @Override
             public void onClick(View v)
             {
-                if (!goToStep(stepNumber, false))
-                    closeStep(stepNumber);
+                clickedHeader(stepNumber);
             }
         });
 
@@ -958,6 +995,14 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         return stepLayout;
     }
 
+    protected boolean canOpenMultipleSteps = false;
+
+    public void clickedHeader(int step)
+    {
+        if (!goToStep(step, false))
+            closeStep(step);
+    }
+
     protected void clickedNext(int step)
     {
         verticalStepperFormImplementation.clickedNext(step);
@@ -992,9 +1037,11 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         return (LinearLayout) inflater.inflate(R.layout.step_layout, content, false);
     }
 
-    protected boolean openStep(int stepNumber, boolean restoration) {
-        if (stepNumber >= 0 && stepNumber <= numberOfSteps) {
-            activeStep = stepNumber;
+    protected boolean openStep(int stepNumber, boolean restoration)
+    {
+        if (stepNumber >= 0 && stepNumber <= numberOfSteps)
+        {
+            addActiveStep(stepNumber);
 
             if (stepNumber == 0) {
                 disablePreviousButtonInBottomNavigationLayout();
@@ -1002,7 +1049,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
                 enablePreviousButtonInBottomNavigationLayout();
             }
 
-            if (completedSteps[stepNumber] && activeStep != numberOfSteps) {
+            if (completedSteps[stepNumber] && stepNumber != numberOfSteps) {
                 enableNextButtonInBottomNavigationLayout();
             } else {
                 disableNextButtonInBottomNavigationLayout();
@@ -1012,10 +1059,15 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
             if (!shouldAddConfirmationStep)
                 stepCount -= 1;
 
-            for(int i = 0; i <= stepCount; i++) {
-                if(i != stepNumber) {
-                    disableStepLayout(i, !restoration);
-                } else {
+            for(int i = 0; i <= stepCount; i++)
+            {
+                if(i != stepNumber)
+                {
+                    if (!canOpenMultipleSteps)
+                        disableStepLayout(i, !restoration);
+                }
+                else
+                {
                     enableStepLayout(i, !restoration);
                 }
             }
@@ -1060,9 +1112,9 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
             if (isStepCompleted(stepNumber))
                 completeStepHeader(stepLayout);
             else
-                enableStepHeader(stepLayout);
+                disableStepHeader(stepLayout);
         }
-        activeStep = -1;
+        removeActiveStep(stepNumber);
     }
 
     protected void scrollToStep(final int stepNumber, boolean smoothScroll)
@@ -1141,7 +1193,8 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
 
     }
 
-    protected void enableStepLayout(int stepNumber, boolean smoothieEnabling) {
+    protected void enableStepLayout(int stepNumber, boolean smoothieEnabling)
+    {
         LinearLayout stepLayout = stepLayouts.get(stepNumber);
         RelativeLayout stepContent = (RelativeLayout) stepLayout.findViewById(R.id.step_content);
         RelativeLayout stepHeader = (RelativeLayout) stepLayout.findViewById(R.id.step_header);
