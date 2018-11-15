@@ -669,6 +669,8 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
 
     private void updateButton(int step)
     {
+        if (stepLayouts == null)
+            return;
         if (step >= stepLayouts.size())
             return;
         LinearLayout stepLayout = stepLayouts.get(step);
@@ -1024,11 +1026,26 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
                 setStepAsCompleted(stepNumber);
             }
 
-            verticalStepperFormImplementation.onStepOpening(stepNumber);
+            if (verticalStepperFormImplementation != null)
+                verticalStepperFormImplementation.onStepOpening(stepNumber);
             updateButton(stepNumber);
             return true;
         }
         return false;
+    }
+
+    public void reloadActiveStep()
+    {
+        reloadStep(activeStep);
+    }
+
+    public void reloadStep(int step)
+    {
+        if (step == -1)
+            return;
+        if (verticalStepperFormImplementation != null)
+            verticalStepperFormImplementation.onStepOpening(step);
+        updateButton(step);
     }
 
     public void closeStep(int stepNumber)
@@ -1048,8 +1065,10 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         activeStep = -1;
     }
 
-    protected void scrollToStep(final int stepNumber, boolean smoothScroll) {
-
+    protected void scrollToStep(final int stepNumber, boolean smoothScroll)
+    {
+        if (stepLayouts == null)
+            return;
         if (stepNumber >= stepLayouts.size())
             return;
         if (stepNumber == -1)
