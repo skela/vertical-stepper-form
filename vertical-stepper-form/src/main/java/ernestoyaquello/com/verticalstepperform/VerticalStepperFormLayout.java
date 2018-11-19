@@ -341,7 +341,10 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         TextView errorTextView = (TextView) errorContainer.findViewById(R.id.error_message);
         Button nextButton = (Button) stepLayout.findViewById(R.id.next_step);
 
-        enableStepHeader(stepLayout);
+        if (isStepActive(stepNumber))
+            enableStepHeader(stepLayout);
+        else
+            completeStepHeader(stepLayout);
 
         updateButton(stepNumber);
         nextButton.setEnabled(true);
