@@ -174,6 +174,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     protected int verticalLineColor = 0;
     protected int doneIcon = 0;
 
+    protected int getLayoutId() { return R.layout.vertical_stepper_form_layout; }
     protected int getButtonLayoutId()
     {
         return R.layout.step_layout_buttons;
@@ -232,7 +233,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         this.context = context;
         circleSize = new VerticalStepperStyle(context.getResources().getDimensionPixelSize(R.dimen.vertical_stepper_circle_size));
         mInflater = LayoutInflater.from(context);
-        mInflater.inflate(R.layout.vertical_stepper_form_layout, this, true);
+        mInflater.inflate(getLayoutId(), this, true);
     }
 
     public void addHeader(View header)
