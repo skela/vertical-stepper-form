@@ -159,6 +159,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     protected boolean materialDesignInDisabledSteps;
     protected boolean hideKeyboard;
     protected boolean showVerticalLineWhenStepsAreCollapsed;
+    public boolean nextButtonIsOnStep = false;
 
     // Extended Style
     protected VerticalStepperStyle circleSize;
@@ -179,6 +180,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     {
         return R.layout.step_layout_buttons;
     }
+    protected int getAccessoryLayout() { return 0; }
 
     // Views
     protected LayoutInflater mInflater;
@@ -914,9 +916,21 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
             }
         });
 
+        int accessoryLayout = getAccessoryLayout();
+        if (accessoryLayout != 0)
+        {
+            stepLayout.addAccessoryViews(accessoryLayout);
+        }
+
         int layoutButtons = getButtonLayoutId();
 
-        stepLayout.addButtons(context,layoutButtons);
+        stepLayout.addButtons(layoutButtons);
+
+        if (nextButtonIsOnStep)
+        {
+            stepLayout.nextButton.setVisible(false);
+            stepLayout.nextButton.setButtons(stepLayout.findViewById(R.id.next_step_accessory));
+        }
 
         if (layoutButtons == R.layout.step_layout_buttons)
         {
@@ -1377,6 +1391,9 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
             stepLayout.setStepCircleBackgroundColor(stepCircleBackgroundColor,stepCircleBackgroundResource);
             stepLayout.stepNumberTextView.setTextColor(stepNumberTextColor.value(enabled,completed));
         }
+
+        if (!enabled)
+            stepLayout.nextButton.setVisible(false);
     }
 
     protected void setStepCircleSize(VerticalStepperStepLayout stepLayout,boolean enabled,boolean completed)

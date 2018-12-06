@@ -9,113 +9,108 @@ import android.widget.ImageButton;
 
 public class VerticalStepperButton
 {
-    private Button bottom;
-    private ImageButton bottomImageButton;
+    private Button button;
+    private ImageButton imageButton;
 
-    public Button getBottomButton()
+    public Button getButton()
     {
-        return bottom;
+        return button;
     }
 
-    public ImageButton getBottomImageButton()
+    public ImageButton getImageButton()
     {
-        return bottomImageButton;
+        return imageButton;
     }
 
     public void setButtons(View bottomButton)
     {
         if (bottomButton instanceof Button)
-            bottom = (Button)bottomButton;
+            button = (Button)bottomButton;
         else
-            bottom = null;
+            button = null;
 
         if (bottomButton instanceof ImageButton)
-            bottomImageButton = (ImageButton)bottomButton;
+            imageButton = (ImageButton)bottomButton;
         else
-            bottomImageButton = null;
+            imageButton = null;
     }
 
     public void setText(@StringRes int resid)
     {
-        if (bottom != null)
-            bottom.setText(resid);
+        if (button != null)
+            button.setText(resid);
     }
 
     public void setText(CharSequence text)
     {
-        if (bottom != null)
-            bottom.setText(text);
+        if (button != null)
+            button.setText(text);
     }
 
     public CharSequence getText()
     {
-        if (bottom == null) return null;
-        return bottom.getText();
+        if (button == null) return null;
+        return button.getText();
     }
 
     public void setEnabled(boolean enabled)
     {
-        if (bottom != null)
-            bottom.setEnabled(enabled);
-        if (bottomImageButton != null)
-            bottomImageButton.setEnabled(enabled);
+        if (button != null)
+            button.setEnabled(enabled);
+        if (imageButton != null)
+            imageButton.setEnabled(enabled);
     }
 
     public boolean getEnabled()
     {
-        if (bottom != null)
-            return bottom.isEnabled();
-        if (bottomImageButton != null)
-            return bottomImageButton.isEnabled();
+        if (button != null)
+            return button.isEnabled();
+        if (imageButton != null)
+            return imageButton.isEnabled();
         return false;
     }
 
     public void setVisible(boolean visible)
     {
-        if (bottom != null)
+        if (button != null)
         {
             if (visible)
-                bottom.setVisibility(View.VISIBLE);
+                button.setVisibility(View.VISIBLE);
             else
-                bottom.setVisibility(View.GONE);
+                button.setVisibility(View.GONE);
         }
-        if (bottomImageButton != null)
+        if (imageButton != null)
         {
             if (visible)
-                bottomImageButton.setVisibility(View.VISIBLE);
+                imageButton.setVisibility(View.VISIBLE);
             else
-                bottomImageButton.setVisibility(View.GONE);
+                imageButton.setVisibility(View.GONE);
         }
     }
 
     public boolean getVisible()
     {
-        if (bottom != null)
-            return bottom.getVisibility() == View.VISIBLE;
-        if (bottomImageButton != null)
-            return bottomImageButton.getVisibility() == View.VISIBLE;
+        if (button != null)
+            return button.getVisibility() == View.VISIBLE;
+        if (imageButton != null)
+            return imageButton.getVisibility() == View.VISIBLE;
         return false;
     }
 
     public void setCompoundDrawablesWithIntrinsicBounds(@DrawableRes int left, @DrawableRes int top, @DrawableRes int right, @DrawableRes int bottomI)
     {
-        bottom.setCompoundDrawablesWithIntrinsicBounds(left,top,right,bottomI);
+        button.setCompoundDrawablesWithIntrinsicBounds(left,top,right,bottomI);
     }
 
     public void setOnClickListener(@Nullable View.OnClickListener l)
     {
-        if (bottom != null)
-            bottom.setOnClickListener(l);
-        if (bottomImageButton != null)
-            bottomImageButton.setOnClickListener(l);
+        if (button != null)
+            button.setOnClickListener(l);
+        if (imageButton != null)
+            imageButton.setOnClickListener(l);
     }
 
     public void setButtonStyle(VerticalStepperFormLayout.ButtonStyle style)
-    {
-        setButtonStyle(bottom,style);
-    }
-
-    private static void setButtonStyle(Button button,VerticalStepperFormLayout.ButtonStyle style)
     {
         if (button == null) return;
 

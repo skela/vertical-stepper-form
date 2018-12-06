@@ -95,6 +95,7 @@
                 >
 
                 <Button
+                    android:id="@+id/next_step_accessory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/vertical_form_stepper_form_continue"

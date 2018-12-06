@@ -7,10 +7,14 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class VerticalStepperStepLayout extends LinearLayout
 {
@@ -22,6 +26,7 @@ public class VerticalStepperStepLayout extends LinearLayout
     public TextView stepTitle;
     public TextView stepSubTitle;
     public LinearLayout circle;
+    public LinearLayout accessoryView;
 
     public VerticalStepperButton nextButton = new VerticalStepperButton();
     public VerticalStepperButton alt1Button = new VerticalStepperButton();
@@ -80,11 +85,13 @@ public class VerticalStepperStepLayout extends LinearLayout
         stepLeftLine1 = findViewById(R.id.vertical_line);
         stepLeftLine2 = findViewById(R.id.vertical_line_subtitle);
         stepLeftLine3 = findViewById(R.id.next_step_button_vertical_line);
+
+        accessoryView = findViewById(R.id.step_accessory);
     }
 
-    public void addButtons(Context context,int buttonLayout)
+    public void addButtons(int buttonLayout)
     {
-        LayoutInflater inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(getContext());
         LinearLayout btns = (LinearLayout) inflater.inflate(buttonLayout, buttons, false);
         buttons.addView(btns);
 
@@ -92,6 +99,26 @@ public class VerticalStepperStepLayout extends LinearLayout
         alt1Button.setButtons(findViewById(R.id.alt1_step));
         alt2Button.setButtons(findViewById(R.id.alt2_step));
         alt3Button.setButtons(findViewById(R.id.alt3_step));
+    }
+
+    public void addAccessoryViews(int accessoryLayout)
+    {
+        accessoryView.removeAllViews();
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        LinearLayout accessories = (LinearLayout) inflater.inflate(accessoryLayout, accessoryView, false);
+        List<View> children = new ArrayList<View>();
+        for (int i = 0; i < accessories.getChildCount(); i++)
+        {
+            View v = accessories.getChildAt(i);
+            children.add(v);
+        }
+
+        while (children.size() > 0)
+        {
+            View v = children.remove(0);
+            accessories.removeView(v);
+            accessoryView.addView(v);
+        }
     }
 
     public void setStepCircleBackgroundColor(int color, int resourceId)
