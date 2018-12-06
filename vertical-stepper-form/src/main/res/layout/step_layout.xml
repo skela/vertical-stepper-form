@@ -75,6 +75,7 @@
             android:gravity="center_vertical"
             android:textColor="#212121"
             android:textSize="@dimen/vertical_stepper_title_text_size"
+            android:text="Title"
             />
 
             <TextView
@@ -84,7 +85,8 @@
                 android:textSize="@dimen/vertical_stepper_subtitle_text_size"
                 android:textColor="#A2A2A2"
                 android:paddingBottom="8dp"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                />
 
         </LinearLayout>
 
@@ -92,6 +94,8 @@
                 android:id="@+id/step_accessory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="top|right"
+                android:paddingLeft="8dp"
                 >
 
                 <Button

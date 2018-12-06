@@ -931,6 +931,12 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
             stepLayout.nextButton.setVisible(false);
             stepLayout.nextButton.setButtons(stepLayout.findViewById(R.id.next_step_accessory));
         }
+        else
+        {
+            View v = stepLayout.findViewById(R.id.next_step_accessory);
+            if (v != null)
+                v.setVisibility(View.GONE);
+        }
 
         if (layoutButtons == R.layout.step_layout_buttons)
         {
