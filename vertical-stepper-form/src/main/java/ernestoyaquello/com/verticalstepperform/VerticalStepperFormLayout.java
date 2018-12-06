@@ -188,7 +188,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     protected List<View> stepContentViews;
     protected List<TextView> stepsTitlesViews;
     protected List<TextView> stepsSubtitlesViews;
-    protected Button confirmationButton;
+    protected VerticalStepperButton confirmationButton;
     protected ProgressBar progressBar;
     protected AppCompatImageButton previousStepButton, nextStepButton;
     protected RelativeLayout bottomNavigation;
@@ -720,22 +720,22 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         updateAlt3Button(stepLayout.alt3Button,step);
     }
 
-    protected void updateNextButton(Button button,int step)
+    protected void updateNextButton(VerticalStepperButton button,int step)
     {
         button.setEnabled(arePreviousStepsCompleted(step));
     }
 
-    protected void updateAlt1Button(Button button,int step)
+    protected void updateAlt1Button(VerticalStepperButton button,int step)
     {
 
     }
 
-    protected void updateAlt2Button(Button button,int step)
+    protected void updateAlt2Button(VerticalStepperButton button,int step)
     {
 
     }
 
-    protected void updateAlt3Button(View button,int step)
+    protected void updateAlt3Button(VerticalStepperButton button,int step)
     {
 
     }
@@ -920,11 +920,10 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
 
         if (layoutButtons == R.layout.step_layout_buttons)
         {
-            setButtonStyle(stepLayout.nextButton, buttonStyle);
-            setButtonStyle(stepLayout.alt1Button, alt1ButtonStyle);
-            setButtonStyle(stepLayout.alt2Button, alt2ButtonStyle);
-            if (stepLayout.alt3Button instanceof Button)
-                setButtonStyle((Button)stepLayout.alt3Button, alt3ButtonStyle);
+            stepLayout.nextButton.setButtonStyle(buttonStyle);
+            stepLayout.alt1Button.setButtonStyle(alt1ButtonStyle);
+            stepLayout.alt2Button.setButtonStyle(alt2ButtonStyle);
+            stepLayout.alt3Button.setButtonStyle(alt3ButtonStyle);
         }
 
         stepLayout.nextButton.setOnClickListener(new OnClickListener()
@@ -1008,7 +1007,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         verticalStepperFormImplementation.clickedAlt3(step);
     }
 
-    static private void setTextAppearance(TextView tv,int appearanceResourceId)
+    public static void setTextAppearance(TextView tv,int appearanceResourceId)
     {
         if (appearanceResourceId == 0) return;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
@@ -1384,31 +1383,6 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     {
         int csize = circleSize.value(enabled,completed);
         stepLayout.setStepCircleSize(csize);
-    }
-
-    static protected void setButtonStyle(Button button,ButtonStyle style)
-    {
-        if (style == null)
-        {
-            button.setVisibility(View.GONE);
-            return;
-        }
-
-        if (style.padding != null)
-        {
-            button.setPadding(style.padding.left,style.padding.top,style.padding.right,style.padding.bottom);
-        }
-
-        if (style.text.appearance == 0)
-            button.setTextColor(style.text.colors);
-        else
-            setTextAppearance(button,style.text.appearance);
-
-        if (style.background.resource!=0)
-            button.setBackgroundResource(style.background.resource);
-
-        if (style.background.colors!=null)
-            button.setBackgroundTintList(style.background.colors);
     }
 
     @Override

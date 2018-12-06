@@ -7,8 +7,6 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -25,10 +23,10 @@ public class VerticalStepperStepLayout extends LinearLayout
     public TextView stepSubTitle;
     public LinearLayout circle;
 
-    public Button nextButton;
-    public Button alt1Button;
-    public Button alt2Button;
-    public View alt3Button;
+    public VerticalStepperButton nextButton = new VerticalStepperButton();
+    public VerticalStepperButton alt1Button = new VerticalStepperButton();
+    public VerticalStepperButton alt2Button = new VerticalStepperButton();
+    public VerticalStepperButton alt3Button = new VerticalStepperButton();
 
     public LinearLayout stepLeftLine1;
     public LinearLayout stepLeftLine2;
@@ -74,10 +72,10 @@ public class VerticalStepperStepLayout extends LinearLayout
         errorMessage = errorContainer.findViewById(R.id.error_message);
         errorIcon = findViewById(R.id.error_icon);
 
-        nextButton = findViewById(R.id.next_step);
-        alt1Button = findViewById(R.id.alt1_step);
-        alt2Button = findViewById(R.id.alt2_step);
-        alt3Button = findViewById(R.id.alt3_step);
+        nextButton.setButtons(findViewById(R.id.next_step));
+        alt1Button.setButtons(findViewById(R.id.alt1_step));
+        alt2Button.setButtons(findViewById(R.id.alt2_step));
+        alt3Button.setButtons(findViewById(R.id.alt3_step));
 
         stepLeftLine1 = findViewById(R.id.vertical_line);
         stepLeftLine2 = findViewById(R.id.vertical_line_subtitle);
@@ -90,10 +88,10 @@ public class VerticalStepperStepLayout extends LinearLayout
         LinearLayout btns = (LinearLayout) inflater.inflate(buttonLayout, buttons, false);
         buttons.addView(btns);
 
-        nextButton = findViewById(R.id.next_step);
-        alt1Button = findViewById(R.id.alt1_step);
-        alt2Button = findViewById(R.id.alt2_step);
-        alt3Button = findViewById(R.id.alt3_step);
+        nextButton.setButtons(findViewById(R.id.next_step));
+        alt1Button.setButtons(findViewById(R.id.alt1_step));
+        alt2Button.setButtons(findViewById(R.id.alt2_step));
+        alt3Button.setButtons(findViewById(R.id.alt3_step));
     }
 
     public void setStepCircleBackgroundColor(int color, int resourceId)
