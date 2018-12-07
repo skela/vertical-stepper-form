@@ -190,6 +190,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     protected List<View> stepContentViews;
     protected List<TextView> stepsTitlesViews;
     protected List<TextView> stepsSubtitlesViews;
+    protected Map<String,View> stepTitleHeaderViews = new HashMap<>();
     protected VerticalStepperButton confirmationButton;
     protected ProgressBar progressBar;
     protected AppCompatImageButton previousStepButton, nextStepButton;
@@ -676,9 +677,14 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         setCompletedSteps(stepsCompleted);
 
         List<View> stepContentLayouts = new ArrayList<>();
-        for (int i = 0; i < numberOfSteps; i++) {
+        for (int i = 0; i < numberOfSteps; i++)
+        {
             View stepLayout = verticalStepperFormImplementation.createStepContentView(i);
             stepContentLayouts.add(stepLayout);
+
+            View stepHeader = verticalStepperFormImplementation.createStepHeaderView(i);
+            if (stepHeader!=null)
+                stepTitleHeaderViews.put(""+i,stepHeader);
         }
         stepContentViews = stepContentLayouts;
 
@@ -829,6 +835,9 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         {
             // The content of the step is the corresponding custom view previously created
             stepLayout.stepContent.addView(stepContentViews.get(stepNumber));
+            View v = stepTitleHeaderViews.get(""+stepNumber);
+            if (v != null)
+                stepLayout.titleHeader.addView(v);
         }
         else
         {
@@ -989,6 +998,10 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
 
         if (lineColor!=0 || lastStep)
         {
+            if (stepNumber == 0)
+                stepLayout.stepLeftLine0.setBackgroundColor(Color.TRANSPARENT);
+            else
+                stepLayout.stepLeftLine0.setBackgroundColor(lineColor);
             stepLayout.stepLeftLine1.setBackgroundColor(lineColor);
             stepLayout.stepLeftLine2.setBackgroundColor(lineColor);
             stepLayout.stepLeftLine3.setBackgroundColor(lineColor);
@@ -1132,13 +1145,16 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         if (stepNumber == -1)
             return;
 
-        if (smoothScroll) {
+        if (smoothScroll)
+        {
             stepsScrollView.post(new Runnable() {
                 public void run() {
                     stepsScrollView.smoothScrollTo(0, stepLayouts.get(stepNumber).getTop());
                 }
             });
-        } else {
+        }
+        else
+            {
             stepsScrollView.post(new Runnable() {
                 public void run() {
                     stepsScrollView.scrollTo(0, stepLayouts.get(stepNumber).getTop());
@@ -1161,14 +1177,28 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         bottomNavigation = (RelativeLayout) findViewById(R.id.bottom_navigation);
     }
 
+    protected void animateStep(VerticalStepperStepLayout stepLayout,boolean up)
+    {
+        if (up)
+        {
+            Animations.slideUp(stepLayout.buttons);
+            Animations.slideUp(stepLayout.stepContent);
+        }
+        else
+        {
+            Animations.slideDown(stepLayout.stepContent);
+            if (stepLayout.hasVisibleBottomButtons(nextButtonIsOnStep))
+                Animations.slideDown(stepLayout.buttons);
+        }
+    }
+
     protected void disableStepLayout(int stepNumber, boolean smoothieDisabling)
     {
         VerticalStepperStepLayout stepLayout = stepLayouts.get(stepNumber);
 
         if (smoothieDisabling)
         {
-            Animations.slideUp(stepLayout.buttons);
-            Animations.slideUp(stepLayout.stepContent);
+            animateStep(stepLayout,true);
         }
         else
         {
@@ -1204,8 +1234,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
 
         if (smoothieEnabling)
         {
-            Animations.slideDown(stepLayout.stepContent);
-            Animations.slideDown(stepLayout.buttons);
+            animateStep(stepLayout,false);
         }
         else
         {

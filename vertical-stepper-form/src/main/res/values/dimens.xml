@@ -20,5 +20,8 @@
     <dimen name="vertical_stepper_subtitle_text_size">14sp</dimen>
     <dimen name="vertical_stepper_vertical_error_message_text_size">16sp</dimen>
     <dimen name="vertical_stepper_vertical_line_thickness">2dp</dimen>
-
+    <dimen name="vertical_stepper_title_header_top_padding">1dp</dimen>
+    <dimen name="vertical_stepper_title_header_left_padding">0dp</dimen>
+    <dimen name="vertical_stepper_title_header_right_padding">0dp</dimen>
+    <dimen name="vertical_stepper_title_header_bottom_padding">0dp</dimen>
 </resources>

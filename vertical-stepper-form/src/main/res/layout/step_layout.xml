@@ -6,6 +6,40 @@
     android:layout_marginLeft="0dp"
     android:layout_marginStart="0dp">
 
+    <LinearLayout
+        android:id="@+id/step_title_header_container"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/step_title_vertical_line"
+            android:layout_width="@dimen/vertical_stepper_vertical_line_thickness"
+            android:layout_marginLeft="@dimen/vertical_stepper_vertical_line_left_margin"
+            android:layout_marginStart="@dimen/vertical_stepper_vertical_line_left_margin"
+            android:layout_marginRight="26dp"
+            android:layout_marginEnd="26dp"
+            android:layout_height="match_parent"
+            android:background="#e0e0e0">
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/step_title_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/vertical_stepper_title_header_top_padding"
+            android:paddingLeft="@dimen/vertical_stepper_title_header_left_padding"
+            android:paddingRight="@dimen/vertical_stepper_title_header_right_padding"
+            android:paddingBottom="@dimen/vertical_stepper_title_header_bottom_padding"
+            >
+
+        </LinearLayout>
+
+    </LinearLayout>
+
     <RelativeLayout
         android:layout_marginTop="6dp"
         android:layout_width="match_parent"

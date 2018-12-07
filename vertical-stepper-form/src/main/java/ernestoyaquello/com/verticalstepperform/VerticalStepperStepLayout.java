@@ -28,11 +28,14 @@ public class VerticalStepperStepLayout extends LinearLayout
     public LinearLayout circle;
     public LinearLayout accessoryView;
 
+    public LinearLayout titleHeader;
+
     public VerticalStepperButton nextButton = new VerticalStepperButton();
     public VerticalStepperButton alt1Button = new VerticalStepperButton();
     public VerticalStepperButton alt2Button = new VerticalStepperButton();
     public VerticalStepperButton alt3Button = new VerticalStepperButton();
 
+    public LinearLayout stepLeftLine0;
     public LinearLayout stepLeftLine1;
     public LinearLayout stepLeftLine2;
     public LinearLayout stepLeftLine3;
@@ -72,6 +75,7 @@ public class VerticalStepperStepLayout extends LinearLayout
         stepContent = findViewById(R.id.step_content);
         stepTitle = findViewById(R.id.step_title);
         stepSubTitle = findViewById(R.id.step_subtitle);
+        titleHeader = findViewById(R.id.step_title_header);
 
         errorContainer = findViewById(R.id.error_container);
         errorMessage = errorContainer.findViewById(R.id.error_message);
@@ -82,6 +86,7 @@ public class VerticalStepperStepLayout extends LinearLayout
         alt2Button.setButtons(findViewById(R.id.alt2_step));
         alt3Button.setButtons(findViewById(R.id.alt3_step));
 
+        stepLeftLine0 = findViewById(R.id.step_title_vertical_line);
         stepLeftLine1 = findViewById(R.id.vertical_line);
         stepLeftLine2 = findViewById(R.id.vertical_line_subtitle);
         stepLeftLine3 = findViewById(R.id.next_step_button_vertical_line);
@@ -144,5 +149,13 @@ public class VerticalStepperStepLayout extends LinearLayout
         circleParams.width = size;
         circleParams.height = size;
         stepDone.setLayoutParams(circleParams);
+    }
+
+    public boolean hasVisibleBottomButtons(boolean nextButtonIsOnStep)
+    {
+        boolean altButtonsVisible = alt1Button.getVisible() || alt2Button.getVisible() || alt3Button.getVisible();
+        if (nextButtonIsOnStep)
+            return altButtonsVisible;
+        return altButtonsVisible || nextButton.getVisible();
     }
 }
