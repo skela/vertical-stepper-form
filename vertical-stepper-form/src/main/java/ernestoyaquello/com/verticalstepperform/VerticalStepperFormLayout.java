@@ -179,6 +179,8 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     protected VerticalStepperStyle stepSubtitleAppearance = new VerticalStepperStyle(0,0,0);
     protected int verticalLineColor = 0;
     protected int doneIcon = 0;
+    protected int stepBackgroundColor=0;
+    protected int stepHeaderBackgroundColor=0;
 
     protected int getLayoutId() { return R.layout.vertical_stepper_form_layout; }
     protected int getButtonLayoutId()
@@ -891,6 +893,14 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     protected VerticalStepperStepLayout createStepLayout(final int stepNumber)
     {
         VerticalStepperStepLayout stepLayout = generateStepLayout();
+
+        if (stepBackgroundColor != 0)
+            stepLayout.setBackgroundColor(stepBackgroundColor);
+        if (stepHeaderBackgroundColor != 0)
+        {
+            stepLayout.stepTitleHeaderContainer.setBackgroundColor(stepHeaderBackgroundColor);
+            stepLayout.stepHeader.setBackgroundColor(stepHeaderBackgroundColor);
+        }
 
         Drawable bg = ContextCompat.getDrawable(context, R.drawable.circle_step_done);
         bg.setColorFilter(new PorterDuffColorFilter(

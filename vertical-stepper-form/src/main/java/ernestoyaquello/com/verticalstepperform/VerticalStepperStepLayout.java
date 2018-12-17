@@ -44,6 +44,8 @@ public class VerticalStepperStepLayout extends LinearLayout
     public TextView errorMessage;
     public ImageView errorIcon;
 
+    public LinearLayout stepTitleHeaderContainer;
+
     public VerticalStepperStepLayout(Context context)
     {
         super(context);
@@ -67,6 +69,7 @@ public class VerticalStepperStepLayout extends LinearLayout
         LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.step_layout, this, true);
 
+        stepTitleHeaderContainer = findViewById(R.id.step_title_header_container);
         stepHeader = findViewById(R.id.step_header);
         stepDone = stepHeader.findViewById(R.id.step_done);
         circle = stepHeader.findViewById(R.id.circle);

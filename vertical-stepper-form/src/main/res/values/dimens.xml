@@ -24,4 +24,8 @@
     <dimen name="vertical_stepper_title_header_left_padding">0dp</dimen>
     <dimen name="vertical_stepper_title_header_right_padding">0dp</dimen>
     <dimen name="vertical_stepper_title_header_bottom_padding">0dp</dimen>
+
+    <dimen name="vertical_stepper_padding_left">@dimen/activity_horizontal_margin</dimen>
+    <dimen name="vertical_stepper_padding_right">@dimen/activity_vertical_margin</dimen>
+
 </resources>

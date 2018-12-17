@@ -3,14 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_marginLeft="0dp"
-    android:layout_marginStart="0dp">
+    >
 
     <LinearLayout
         android:id="@+id/step_title_header_container"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/vertical_stepper_padding_left"
+        android:paddingRight="@dimen/vertical_stepper_padding_right"
         >
 
         <LinearLayout
@@ -41,11 +42,12 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:layout_marginTop="6dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:id="@+id/step_header"
+        android:paddingLeft="@dimen/vertical_stepper_padding_left"
+        android:paddingRight="@dimen/vertical_stepper_padding_right"
         android:clickable="true">
 
         <LinearLayout
@@ -196,7 +198,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/vertical_stepper_padding_left"
+        android:paddingRight="@dimen/vertical_stepper_padding_right"
+        >
 
         <LinearLayout
             android:layout_width="@dimen/vertical_stepper_vertical_line_thickness"
@@ -259,6 +264,8 @@
         android:layout_marginBottom="6dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/vertical_stepper_padding_left"
+        android:paddingRight="@dimen/vertical_stepper_padding_right"
         android:orientation="horizontal">
 
         <LinearLayout
