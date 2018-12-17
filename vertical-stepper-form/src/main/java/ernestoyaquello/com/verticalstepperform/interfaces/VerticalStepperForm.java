@@ -1,5 +1,6 @@
 package ernestoyaquello.com.verticalstepperform.interfaces;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 
@@ -21,13 +22,7 @@ public interface VerticalStepperForm
      */
     View createStepHeaderView(int stepNumber);
 
-    void clickedNext(int stepNumber);
-
-    void clickedAlt1(int stepNumber);
-
-    void clickedAlt2(int stepNumber);
-
-    void clickedAlt3(int stepNumber);
+    void clickedStepButton(int stepNumber, @NonNull String tag);
 
     /**
      * This method will be called every time a certain step is open

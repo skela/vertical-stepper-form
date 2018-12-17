@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageButton;
 import android.util.AttributeSet;
@@ -159,7 +160,11 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     protected boolean materialDesignInDisabledSteps;
     protected boolean hideKeyboard;
     protected boolean showVerticalLineWhenStepsAreCollapsed;
+
     public boolean nextButtonIsOnStep = false;
+    public boolean alt1ButtonIsOnStep = false;
+    public boolean alt2ButtonIsOnStep = false;
+    public boolean alt3ButtonIsOnStep = false;
 
     // Extended Style
     protected VerticalStepperStyle circleSize;
@@ -208,6 +213,11 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     public boolean shouldAddConfirmationStep = true;
     public boolean startOnStep = true;
     public boolean explorable = false;
+
+    public String nextButtonTag="next";
+    public String alt1ButtonTag="alt1";
+    public String alt2ButtonTag="alt2";
+    public String alt3ButtonTag="alt3";
 
     // Listeners and callbacks
     protected VerticalStepperForm verticalStepperFormImplementation;
@@ -343,8 +353,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         else
             completeStepHeader(stepLayout);
 
-        updateButton(stepNumber);
-        stepLayout.nextButton.setEnabled(true);
+        updateButtons(stepNumber);
 
         if (stepNumber != activeStep)
         {
@@ -387,8 +396,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         stepLayout.stepDone.setVisibility(View.INVISIBLE);
         stepLayout.stepNumberTextView.setVisibility(View.VISIBLE);
 
-        updateButton(stepNumber);
-        stepLayout.nextButton.setEnabled(false);
+        updateButtons(stepNumber);
 
         if (stepNumber == activeStep)
         {
@@ -694,7 +702,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         {
             verticalStepperFormImplementation.onStepOpening(activeStep);
 
-            updateButton(activeStep);
+            updateButtons(activeStep);
         }
         else
         {
@@ -715,7 +723,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         }
     }
 
-    private void updateButton(int step)
+    private void updateButtons(int step)
     {
         if (stepLayouts == null)
             return;
@@ -728,22 +736,27 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         updateAlt3Button(stepLayout.alt3Button,step);
     }
 
-    protected void updateNextButton(VerticalStepperButton button,int step)
+    void updateNextButton(VerticalStepperButton button,int step)
     {
-        button.setEnabled(arePreviousStepsCompleted(step));
+        updateStepButton(step, button, nextButtonTag);
     }
 
-    protected void updateAlt1Button(VerticalStepperButton button,int step)
+    void updateAlt1Button(VerticalStepperButton button,int step)
     {
-
+        updateStepButton(step, button, alt1ButtonTag);
     }
 
-    protected void updateAlt2Button(VerticalStepperButton button,int step)
+    void updateAlt2Button(VerticalStepperButton button,int step)
     {
-
+        updateStepButton(step, button, alt2ButtonTag);
     }
 
-    protected void updateAlt3Button(VerticalStepperButton button,int step)
+    void updateAlt3Button(VerticalStepperButton button,int step)
+    {
+        updateStepButton(step, button, alt3ButtonTag);
+    }
+
+    protected void updateStepButton(int step, @NonNull VerticalStepperButton button, @NonNull String tag)
     {
 
     }
@@ -868,9 +881,8 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
                 prepareSendingAndSend();
             }
         });
-        updateNextButton(confirmationButton,numberOfSteps);
-        updateAlt1Button(stepLayout.alt1Button,numberOfSteps);
-        updateAlt2Button(stepLayout.alt2Button,numberOfSteps);
+
+        updateButtons(numberOfSteps);
 
         // Some content could be added to the final step inside stepContent layout
         // RelativeLayout stepContent = (RelativeLayout) stepLayout.findViewById(R.id.step_content);
@@ -935,17 +947,10 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
 
         stepLayout.addButtons(layoutButtons);
 
-        if (nextButtonIsOnStep)
-        {
-            stepLayout.nextButton.setVisible(false);
-            stepLayout.nextButton.setButtons(stepLayout.findViewById(R.id.next_step_accessory));
-        }
-        else
-        {
-            View v = stepLayout.findViewById(R.id.next_step_accessory);
-            if (v != null)
-                v.setVisibility(View.GONE);
-        }
+        setupButton(stepLayout,stepLayout.nextButton,nextButtonIsOnStep,R.id.next_step_accessory_button_next);
+        setupButton(stepLayout,stepLayout.alt1Button,alt1ButtonIsOnStep,R.id.next_step_accessory_button_alt1);
+        setupButton(stepLayout,stepLayout.alt2Button,alt2ButtonIsOnStep,R.id.next_step_accessory_button_alt2);
+        setupButton(stepLayout,stepLayout.alt3Button,alt3ButtonIsOnStep,R.id.next_step_accessory_button_alt3);
 
         if (layoutButtons == R.layout.step_layout_buttons)
         {
@@ -1012,6 +1017,23 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         return stepLayout;
     }
 
+    private void setupButton(VerticalStepperStepLayout layout,VerticalStepperButton button,boolean isOnStep,int id)
+    {
+        if (isOnStep)
+        {
+            button.setVisible(false);
+            button.setButtons(layout.findViewById(id));
+            button.isOnStep = isOnStep;
+            button.setVisible(false);
+        }
+        else
+        {
+            View v = layout.findViewById(id);
+            if (v != null)
+                v.setVisibility(View.GONE);
+        }
+    }
+
     protected boolean canOpenMultipleSteps = false;
 
     public void clickedHeader(int step)
@@ -1022,22 +1044,22 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
 
     protected void clickedNext(int step)
     {
-        verticalStepperFormImplementation.clickedNext(step);
+        verticalStepperFormImplementation.clickedStepButton(step,nextButtonTag);
     }
 
     protected void clickedAlt1(int step)
     {
-        verticalStepperFormImplementation.clickedAlt1(step);
+        verticalStepperFormImplementation.clickedStepButton(step,alt1ButtonTag);
     }
 
     protected void clickedAlt2(int step)
     {
-        verticalStepperFormImplementation.clickedAlt2(step);
+        verticalStepperFormImplementation.clickedStepButton(step,alt2ButtonTag);
     }
 
     protected void clickedAlt3(int step)
     {
-        verticalStepperFormImplementation.clickedAlt3(step);
+        verticalStepperFormImplementation.clickedStepButton(step,alt3ButtonTag);
     }
 
     public static void setTextAppearance(TextView tv,int appearanceResourceId)
@@ -1060,7 +1082,12 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     {
         if (stepNumber >= 0 && stepNumber <= numberOfSteps)
         {
+            int oldActiveStep = activeStep;
+
             addActiveStep(stepNumber);
+
+            if (oldActiveStep!=-1)
+                updateButtons(oldActiveStep);
 
             if (stepNumber == 0) {
                 disablePreviousButtonInBottomNavigationLayout();
@@ -1099,7 +1126,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
 
             if (verticalStepperFormImplementation != null)
                 verticalStepperFormImplementation.onStepOpening(stepNumber);
-            updateButton(stepNumber);
+            updateButtons(stepNumber);
             return true;
         }
         return false;
@@ -1116,7 +1143,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
             return;
         if (verticalStepperFormImplementation != null)
             verticalStepperFormImplementation.onStepOpening(step);
-        updateButton(step);
+        updateButtons(step);
     }
 
     public void closeStep(int stepNumber)
@@ -1134,6 +1161,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
                 disableStepHeader(stepLayout);
         }
         removeActiveStep(stepNumber);
+        updateButtons(stepNumber);
     }
 
     protected void scrollToStep(final int stepNumber, boolean smoothScroll)
@@ -1426,9 +1454,6 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
             stepLayout.setStepCircleBackgroundColor(stepCircleBackgroundColor,stepCircleBackgroundResource);
             stepLayout.stepNumberTextView.setTextColor(stepNumberTextColor.value(enabled,completed));
         }
-
-        if (!enabled)
-            stepLayout.nextButton.setVisible(false);
     }
 
     protected void setStepCircleSize(VerticalStepperStepLayout stepLayout,boolean enabled,boolean completed)

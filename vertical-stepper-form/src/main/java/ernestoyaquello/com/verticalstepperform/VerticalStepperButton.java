@@ -22,6 +22,8 @@ public class VerticalStepperButton
         return imageButton;
     }
 
+    public boolean isOnStep = false;
+
     public void setButtons(View bottomButton)
     {
         if (bottomButton instanceof Button)
