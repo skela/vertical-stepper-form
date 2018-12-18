@@ -35,16 +35,16 @@ public class VerticalStepperStepLayout extends LinearLayout
     public VerticalStepperButton alt2Button = new VerticalStepperButton();
     public VerticalStepperButton alt3Button = new VerticalStepperButton();
 
-    public LinearLayout stepLeftLine0;
-    public LinearLayout stepLeftLine1;
-    public LinearLayout stepLeftLine2;
-    public LinearLayout stepLeftLine3;
+    public View stepLeftLine0;
+    public View stepLeftLine1;
+    public View stepLeftLine2;
+    public View stepLeftLine3;
 
     public LinearLayout errorContainer;
     public TextView errorMessage;
     public ImageView errorIcon;
 
-    public LinearLayout stepTitleHeaderContainer;
+    public RelativeLayout stepTitleHeaderContainer;
 
     public VerticalStepperStepLayout(Context context)
     {

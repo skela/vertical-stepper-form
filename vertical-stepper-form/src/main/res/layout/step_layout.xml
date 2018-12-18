@@ -5,26 +5,27 @@
     android:orientation="vertical"
     >
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/step_title_header_container"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/vertical_stepper_padding_left"
         android:paddingRight="@dimen/vertical_stepper_padding_right"
         >
 
-        <LinearLayout
-            android:orientation="horizontal"
+        <View
+            android:orientation="vertical"
             android:id="@+id/step_title_vertical_line"
             android:layout_width="@dimen/vertical_stepper_vertical_line_thickness"
-            android:layout_marginLeft="@dimen/vertical_stepper_vertical_line_left_margin"
-            android:layout_marginStart="@dimen/vertical_stepper_vertical_line_left_margin"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/vertical_stepper_vertical_line_title_header_left_margin"
+            android:layout_marginStart="@dimen/vertical_stepper_vertical_line_title_header_left_margin"
             android:layout_marginRight="26dp"
             android:layout_marginEnd="26dp"
-            android:layout_height="match_parent"
-            android:background="#e0e0e0">
-        </LinearLayout>
+            android:layout_alignBottom="@id/step_title_header"
+            android:background="#e0e0e0"/>
 
         <LinearLayout
             android:orientation="vertical"
@@ -39,13 +40,16 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:id="@+id/step_header"
+        android:paddingTop="@dimen/vertical_stepper_header_padding_top"
         android:paddingLeft="@dimen/vertical_stepper_padding_left"
         android:paddingRight="@dimen/vertical_stepper_padding_right"
         android:clickable="true">
@@ -176,7 +180,7 @@
 
 
 
-        <LinearLayout
+        <View
             android:id="@+id/vertical_line_subtitle"
             android:layout_width="@dimen/vertical_stepper_vertical_line_thickness"
             android:layout_alignParentStart="true"
@@ -190,8 +194,7 @@
             android:layout_height="match_parent"
             android:background="#e0e0e0"
             android:layout_marginTop="@dimen/vertical_stepper_vertical_line_subtitle_top_margin"
-            android:orientation="vertical">
-        </LinearLayout>
+            android:orientation="vertical"/>
 
     </RelativeLayout>
 
@@ -203,7 +206,7 @@
         android:paddingRight="@dimen/vertical_stepper_padding_right"
         >
 
-        <LinearLayout
+        <View
             android:layout_width="@dimen/vertical_stepper_vertical_line_thickness"
             android:layout_marginLeft="@dimen/vertical_stepper_vertical_line_left_margin"
             android:layout_marginStart="@dimen/vertical_stepper_vertical_line_left_margin"
@@ -212,8 +215,7 @@
             android:layout_height="match_parent"
             android:background="#e0e0e0"
             android:orientation="vertical"
-            android:id="@+id/vertical_line">
-        </LinearLayout>
+            android:id="@+id/vertical_line"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -268,7 +270,7 @@
         android:paddingRight="@dimen/vertical_stepper_padding_right"
         android:orientation="horizontal">
 
-        <LinearLayout
+        <View
             android:orientation="horizontal"
             android:id="@+id/next_step_button_vertical_line"
             android:layout_width="@dimen/vertical_stepper_vertical_line_thickness"
@@ -277,8 +279,7 @@
             android:layout_marginRight="26dp"
             android:layout_marginEnd="26dp"
             android:layout_height="match_parent"
-            android:background="#e0e0e0">
-        </LinearLayout>
+            android:background="#e0e0e0"/>
 
     </LinearLayout>
 

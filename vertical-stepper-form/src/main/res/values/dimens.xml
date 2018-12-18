@@ -25,6 +25,10 @@
     <dimen name="vertical_stepper_title_header_right_padding">0dp</dimen>
     <dimen name="vertical_stepper_title_header_bottom_padding">0dp</dimen>
 
+    <!-- vertical_stepper_vertical_line_left_margin + vertical_stepper_padding_left -->
+    <dimen name="vertical_stepper_vertical_line_title_header_left_margin">28dp</dimen>
+
+    <dimen name="vertical_stepper_header_padding_top">0dp</dimen>
     <dimen name="vertical_stepper_padding_left">@dimen/activity_horizontal_margin</dimen>
     <dimen name="vertical_stepper_padding_right">@dimen/activity_vertical_margin</dimen>
 
