@@ -1202,7 +1202,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     }
 
     protected void scrollToActiveStep(boolean smoothScroll) {
-        scrollToStep(activeStep, smoothScroll);
+        //scrollToStep(activeStep, smoothScroll);
     }
 
     protected void findViews()
