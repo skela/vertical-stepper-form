@@ -762,6 +762,14 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
 
     }
 
+    protected int updateStepDoneIcon(int step,@NonNull ImageView icon)
+    {
+        if (doneIcon != 0)
+            icon.setImageResource(doneIcon);
+        icon.setColorFilter(stepNumberTextColor.enabled);
+        return 0;
+    }
+
     protected void setSteps(CharSequence[] steps, CharSequence[] stepsSubtitles) {
         this.steps = new ArrayList<>(Arrays.asList(steps));
         if(stepsSubtitles != null) {
@@ -892,6 +900,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     protected VerticalStepperStepLayout createStepLayout(final int stepNumber)
     {
         VerticalStepperStepLayout stepLayout = generateStepLayout();
+        stepLayout.stepNumber = stepNumber;
 
         if (stepBackgroundColor != 0)
             stepLayout.setBackgroundColor(stepBackgroundColor);
@@ -930,9 +939,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         stepLayout.stepNumberTextView.setText(String.valueOf(stepNumber + 1));
         stepLayout.stepNumberTextView.setTextColor(stepNumberTextColor.enabled);
 
-        if (doneIcon != 0)
-            stepLayout.stepDone.setImageResource(doneIcon);
-        stepLayout.stepDone.setColorFilter(stepNumberTextColor.enabled);
+        updateStepDoneIcon(stepNumber,stepLayout.stepDone);
 
         stepLayout.errorMessage.setTextColor(errorMessageTextColor);
         stepLayout.errorIcon.setColorFilter(errorMessageTextColor);
@@ -1459,8 +1466,16 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         }
         else
         {
+            int circleBg = stepCircleBackgroundColor;
+            if (completed)
+            {
+                int res = updateStepDoneIcon(stepLayout.stepNumber,stepLayout.stepDone);
+                if (res != 0)
+                    circleBg = res;
+            }
+
             setStepCircleSize(stepLayout,enabled,completed);
-            stepLayout.setStepCircleBackgroundColor(stepCircleBackgroundColor,stepCircleBackgroundResource);
+            stepLayout.setStepCircleBackgroundColor(circleBg,stepCircleBackgroundResource);
             stepLayout.stepNumberTextView.setTextColor(stepNumberTextColor.value(enabled,completed));
         }
     }

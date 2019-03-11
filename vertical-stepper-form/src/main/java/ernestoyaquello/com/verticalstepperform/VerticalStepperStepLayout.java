@@ -18,6 +18,8 @@ import java.util.List;
 
 public class VerticalStepperStepLayout extends LinearLayout
 {
+    public int stepNumber;
+
     public RelativeLayout stepHeader;
     public ImageView stepDone;
     public TextView stepNumberTextView;
