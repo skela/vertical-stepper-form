@@ -22,7 +22,6 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -204,8 +203,8 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     protected RelativeLayout bottomNavigation;
 
     // Data
-    protected List<String> steps;
-    protected List<String> stepsSubtitles;
+    protected List<CharSequence> steps;
+    protected List<CharSequence> stepsSubtitles;
 
     // Logic
     protected int activeStep = -1;
@@ -271,7 +270,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
      * @param stepNumber The step number (counting from 0)
      * @return the title string
      */
-    public String getStepTitle(int stepNumber) {
+    public CharSequence getStepTitle(int stepNumber) {
         return steps.get(stepNumber);
     }
 
@@ -280,7 +279,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
      * @param stepNumber The step number (counting from 0)
      * @return the subtitle string
      */
-    public String getStepsSubtitles(int stepNumber) {
+    public CharSequence getStepsSubtitles(int stepNumber) {
         if(stepsSubtitles != null) {
             return stepsSubtitles.get(stepNumber);
         }
@@ -315,7 +314,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
      * @param stepNumber The step number (counting from 0)
      * @param subtitle New subtitle of the step
      */
-    public void setStepSubtitle(int stepNumber, String subtitle) {
+    public void setStepSubtitle(int stepNumber, CharSequence subtitle) {
         if(stepsSubtitles != null && subtitle != null && !subtitle.equals("")) {
             stepsSubtitles.set(stepNumber, subtitle);
             TextView subtitleView = stepsSubtitlesViews.get(stepNumber);
@@ -681,7 +680,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         return stepContentViews.get(step);
     }
 
-    protected void initStepperForm(String[] stepsTitles, String[] stepsSubtitles,Boolean[] stepsCompleted)
+    protected void initStepperForm(CharSequence[] stepsTitles, CharSequence[] stepsSubtitles,Boolean[] stepsCompleted)
     {
         setSteps(stepsTitles, stepsSubtitles);
         setCompletedSteps(stepsCompleted);
@@ -763,7 +762,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
 
     }
 
-    protected void setSteps(String[] steps, String[] stepsSubtitles) {
+    protected void setSteps(CharSequence[] steps, CharSequence[] stepsSubtitles) {
         this.steps = new ArrayList<>(Arrays.asList(steps));
         if(stepsSubtitles != null) {
             this.stepsSubtitles = new ArrayList<>(Arrays.asList(stepsSubtitles));
@@ -916,7 +915,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         TextView stepSubtitle = null;
         if(stepsSubtitles != null && stepNumber < stepsSubtitles.size())
         {
-            String subtitle = stepsSubtitles.get(stepNumber);
+            CharSequence subtitle = stepsSubtitles.get(stepNumber);
             if(subtitle != null && !subtitle.equals("")) {
                 stepSubtitle = stepLayout.stepSubTitle;
                 stepSubtitle.setText(subtitle);
@@ -1519,12 +1518,12 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
 
         // Required parameters
         protected VerticalStepperFormLayout verticalStepperFormLayout;
-        protected String[] steps;
+        protected CharSequence[] steps;
         protected VerticalStepperForm verticalStepperFormImplementation;
         protected Activity activity;
 
         // Optional parameters
-        protected String[] stepsSubtitles = null;
+        protected CharSequence[] stepsSubtitles = null;
         protected Boolean[] stepsCompleted = null;
         protected float alphaOfDisabledElements = 0.25f;
         protected int stepNumberBackgroundColor = Color.rgb(63, 81, 181);
@@ -1541,7 +1540,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         protected boolean showVerticalLineWhenStepsAreCollapsed = false;
 
         protected Builder(VerticalStepperFormLayout stepperLayout,
-                          String[] steps,
+                          CharSequence[] steps,
                           VerticalStepperForm stepperImplementation,
                           Activity activity) {
 
@@ -1561,7 +1560,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
          * @return an instance of the builder
          */
         public static Builder newInstance(VerticalStepperFormLayout stepperLayout,
-                                          String[] stepTitles,
+                                          CharSequence[] stepTitles,
                                           VerticalStepperForm stepperImplementation,
                                           Activity activity) {
 
@@ -1573,7 +1572,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
          * @param stepsSubtitles a String array with the subtitles of the steps
          * @return the builder instance
          */
-        public Builder stepsSubtitles(String[] stepsSubtitles) {
+        public Builder stepsSubtitles(CharSequence[] stepsSubtitles) {
             this.stepsSubtitles = stepsSubtitles;
             return this;
         }
