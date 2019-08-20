@@ -9,6 +9,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
@@ -121,6 +122,16 @@ public class NewAlarmFormActivity extends AppCompatActivity implements VerticalS
                 break;
         }
         return view;
+    }
+
+    @Override
+    public View createStepHeaderView(int stepNumber) {
+        return null;
+    }
+
+    @Override
+    public void clickedStepButton(int stepNumber, @NonNull String tag) {
+
     }
 
     @Override
