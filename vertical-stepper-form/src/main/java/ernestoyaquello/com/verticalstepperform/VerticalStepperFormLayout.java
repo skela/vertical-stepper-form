@@ -159,6 +159,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     protected boolean materialDesignInDisabledSteps;
     protected boolean hideKeyboard;
     protected boolean showVerticalLineWhenStepsAreCollapsed;
+    protected boolean unsequential;
 
     public boolean nextButtonIsOnStep = false;
     public boolean alt1ButtonIsOnStep = false;
@@ -669,6 +670,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         this.materialDesignInDisabledSteps = builder.materialDesignInDisabledSteps;
         this.hideKeyboard = builder.hideKeyboard;
         this.showVerticalLineWhenStepsAreCollapsed = builder.showVerticalLineWhenStepsAreCollapsed;
+        this.unsequential = builder.unsequential;
 
         initStepperForm(builder.steps, builder.stepsSubtitles,builder.stepsCompleted);
     }
@@ -759,7 +761,6 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
 
     protected void updateStepButton(int step, @NonNull VerticalStepperButton button, @NonNull String tag)
     {
-
     }
 
     protected int updateStepDoneIcon(int step,@NonNull ImageView icon)
@@ -1048,6 +1049,9 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
             if (v != null)
                 v.setVisibility(View.GONE);
         }
+
+        button.setEnabled(this.unsequential);
+
     }
 
     protected boolean canOpenMultipleSteps = false;
@@ -1056,6 +1060,8 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     {
         if (!goToStep(step, false))
             closeStep(step);
+
+        updateButtons(step);
     }
 
     protected void clickedNext(int step)
@@ -1553,6 +1559,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         protected boolean materialDesignInDisabledSteps = false;
         protected boolean hideKeyboard = true;
         protected boolean showVerticalLineWhenStepsAreCollapsed = false;
+        protected boolean unsequential = false;
 
         protected Builder(VerticalStepperFormLayout stepperLayout,
                           CharSequence[] steps,
@@ -1746,6 +1753,11 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
          */
         public Builder alphaOfDisabledElements(float alpha) {
             this.alphaOfDisabledElements = alpha;
+            return this;
+        }
+
+        public Builder setUnsequantial(boolean unsequantial){
+            this.unsequential = unsequantial;
             return this;
         }
 
