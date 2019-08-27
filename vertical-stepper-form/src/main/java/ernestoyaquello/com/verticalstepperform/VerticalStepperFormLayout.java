@@ -212,9 +212,11 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     protected int numberOfSteps;
     protected boolean[] completedSteps;
 
+
     public boolean shouldAddConfirmationStep = true;
     public boolean startOnStep = true;
     public boolean explorable = false;
+    public boolean expanded;
 
     public String nextButtonTag="next";
     public String alt1ButtonTag="alt1";
@@ -351,7 +353,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         VerticalStepperStepLayout stepLayout = stepLayouts.get(stepNumber);
 
         if (isStepActive(stepNumber))
-            enableStepHeader(stepLayout);
+            enableStepHeader(stepLayout, isStepCompleted(stepNumber));
         else
             completeStepHeader(stepLayout);
 
@@ -491,10 +493,10 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
 
     public boolean isStepActive(int step)
     {
-        if (canOpenMultipleSteps)
+        if (canOpenMultipleSteps && canOpenMultipleWhenExpanded)
         {
             if (activeSteps.containsKey(step))
-                return activeSteps.get(step).booleanValue();
+                return activeSteps.get(step);
             return false;
         }
         else
@@ -506,10 +508,23 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     void addActiveStep(int step)
     {
         activeStep = step;
-        if (canOpenMultipleSteps)
+
+        if (canOpenMultipleSteps && canOpenMultipleWhenExpanded)
         {
             activeSteps.put(step,true);
         }
+    }
+
+    public boolean isAllStepsComplete()
+    {
+        for (int i = 0; i<completedSteps.length - 1; i++)
+        {
+            if(!completedSteps[i])
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     void removeActiveStep(int step)
@@ -533,9 +548,11 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
                 return openStep(stepNumber, restoration);
             }
         }
-        else if (isActive)
-        {
-            closeStep(stepNumber);
+        else {
+            if(!expanded)
+                closeStep(stepNumber);
+            else
+                scrollToStep(stepNumber, true);
         }
         return false;
     }
@@ -716,7 +733,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
                 if (arePreviousStepsCompleted(i))
                 {
                     if (activeStep == i)
-                        enableStepHeader(stepLayout);
+                        enableStepHeader(stepLayout, isStepCompleted(i));
                     else if (isStepCompleted(i))
                         completeStepHeader(stepLayout);
                     else
@@ -1050,11 +1067,13 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
                 v.setVisibility(View.GONE);
         }
 
-        button.setEnabled(this.unsequential);
-
+        if(id != R.id.next_step_accessory_button_alt1){
+            button.setEnabled(this.unsequential);
+        }
     }
 
-    protected boolean canOpenMultipleSteps = false;
+    public boolean canOpenMultipleSteps = false;
+    public boolean canOpenMultipleWhenExpanded = false;
 
     public void clickedHeader(int step)
     {
@@ -1131,7 +1150,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
             {
                 if(i != stepNumber)
                 {
-                    if (!canOpenMultipleSteps)
+                    if (!canOpenMultipleSteps || !expanded)
                         disableStepLayout(i, !restoration);
                 }
                 else
@@ -1280,7 +1299,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     {
         VerticalStepperStepLayout stepLayout = stepLayouts.get(stepNumber);
 
-        enableStepHeader(stepLayout);
+        enableStepHeader(stepLayout, isStepCompleted(stepNumber));
 
         if (smoothieEnabling)
         {
@@ -1315,9 +1334,13 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         setHeaderAppearance(stepLayout, 1, circleBackgroundColor.completed,circleResourceId.completed,false,true);
     }
 
-    protected void enableStepHeader(VerticalStepperStepLayout stepLayout)
+    protected void enableStepHeader(VerticalStepperStepLayout stepLayout, boolean stepCompleted)
     {
-        setHeaderAppearance(stepLayout, 1, circleBackgroundColor.enabled,circleResourceId.enabled,true,false);
+        int backgroundColor = circleBackgroundColor.enabled;
+        //We want to have a green circle background when expanding the step layout if it is completed
+        if(expanded && unsequential && stepCompleted)
+            backgroundColor = circleBackgroundColor.completed;
+        setHeaderAppearance(stepLayout, 1, backgroundColor,circleResourceId.enabled,true,false);
     }
 
     protected void disableStepHeader(VerticalStepperStepLayout stepLayout)
