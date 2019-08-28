@@ -402,21 +402,17 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
 
         updateButtons(stepNumber);
 
-        if (stepNumber == activeStep)
+        if(stepNumber == activeStep)
         {
             disableNextButtonInBottomNavigationLayout();
         }
-        else
-        {
-            if(isStepActive(stepNumber) && !expanded)
-                disableStepHeader(stepLayout);
-            else
-                enableStepHeader(stepLayout, false);
-        }
 
-        if (stepNumber < numberOfSteps)
+        if(isStepActive(stepNumber))
         {
-            setStepAsUncompleted(numberOfSteps, null);
+            enableStepHeader(stepLayout, false);
+        } else
+        {
+            disableStepHeader(stepLayout);
         }
 
         if (errorMessage != null && !errorMessage.equals(""))
