@@ -551,8 +551,6 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         else {
             if(!expanded)
                 closeStep(stepNumber);
-            else
-                scrollToStep(stepNumber, true);
         }
         return false;
     }
