@@ -408,7 +408,10 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
         }
         else
         {
-            disableStepHeader(stepLayout);
+            if(isStepActive(stepNumber) && !expanded)
+                disableStepHeader(stepLayout);
+            else
+                enableStepHeader(stepLayout, false);
         }
 
         if (stepNumber < numberOfSteps)
