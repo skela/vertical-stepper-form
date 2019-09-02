@@ -535,7 +535,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     public boolean goToStep(int stepNumber, boolean restoration)
     {
         boolean isActive = isStepActive(stepNumber);
-        if (!isActive || restoration)
+        if (!isActive || restoration || expanded)
         {
             if(hideKeyboard)
             {
@@ -1335,7 +1335,7 @@ public class VerticalStepperFormLayout extends RelativeLayout implements View.On
     {
         int backgroundColor = circleBackgroundColor.enabled;
         //We want to have a green circle background when expanding the step layout if it is completed
-        if(expanded && unsequential && stepCompleted)
+        if((expanded || unsequential) && stepCompleted)
             backgroundColor = circleBackgroundColor.completed;
         setHeaderAppearance(stepLayout, 1, backgroundColor,circleResourceId.enabled,true,false);
     }
